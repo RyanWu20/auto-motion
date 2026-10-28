@@ -5,7 +5,7 @@ description: 仅在任务要求验收镜头或拼接无声成片时使用。验�
 
 # 剪辑
 
-片子根和成片名由任务给出。默认片子根是 films/<主题>/，成片是同目录下的 <主题>.mp4。list.txt 也写在片子根。不要写到仓库根。项目里若同时加载了 auto-motion-producer 或 auto-motion-dubbing，忽略它们的步骤。
+片子根和成片名由任务给出。默认片子根是 films/<主题>/（任务应带绝对路径），成片是同目录下的 <主题>.mp4。list.txt 也写在片子根。先 `cd` 到片子根再跑 ffprobe / ffmpeg。不要写到仓库根。项目里若同时加载了 auto-motion-producer 或 auto-motion-dubbing，忽略它们的步骤。
 
 对每一段执行：
 

@@ -6,3 +6,6 @@ auto-test/.tmp/
 auto-hyper-/resources/*
 !auto-hyper-/resources/codex.svg
 !auto-hyper-/resources/github.svg
+films/**/*.mp4
+films/**/*.m4a
+films/**/scenes/**/.claude/

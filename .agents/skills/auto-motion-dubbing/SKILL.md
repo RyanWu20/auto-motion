@@ -5,7 +5,9 @@ description: 仅在任务明确要求配音时使用。按 dubbing-brief.md 与 
 
 # 配音
 
-片子根由任务给出。只读该目录下的 transcription.srt 和 dubbing-brief.md。不改 HTML，不渲染镜头，不拼接画面，不合轨。项目里若同时加载了 auto-motion-producer 或 auto-motion-editor，忽略它们的步骤。
+片子根由任务给出（绝对路径，形如 …/films/<主题>）。只读该目录下的 transcription.srt 和 dubbing-brief.md。不改 HTML，不渲染镜头，不拼接画面，不合轨。项目里若同时加载了 auto-motion-producer 或 auto-motion-editor，忽略它们的步骤。
+
+所有落盘命令先 `cd` 到片子根绝对路径再执行。不要在仓库根创建 `dubbing/` 或 `narration.m4a`。
 
 开片 brief 必须已经写明：配音需要、provider、model、voice、语速。缺任一项就停下回报，不要自己补默认值。狼来了验证过的取值是：
 

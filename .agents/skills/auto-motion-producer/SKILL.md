@@ -27,7 +27,7 @@ Hana 书桌始终停在仓库根 /Users/wulei/Workspace/GitRepo/auto-motion。�
 - 口令写了「配音：需要」时，必须有音色和语速。缺一项就停下补问，不自选默认声线。
 - provider、model、摆放规则可由本技能补全。口令只写「少儿故事」时，voice 写成 `zh_female_shaoergushi_uranus_bigtts`。口令给了别的音色名或 ID，以口令为准。
 
-写入 `dubbing-brief.md` 时用下面字段：
+写入片子根 `dubbing-brief.md` 时用下面字段：
 
 ```text
 配音：需要
@@ -56,20 +56,21 @@ BGM：无
 4. 调用子代理。agent 填「锦泽-导演」，access 填 write。task 使用上一步写好的派工内容，并写明只交 HTML 和一条渲染命令。
 5. 在该镜头目录的持续终端执行渲染命令。命令必须带 --fps 30 和明确的 --output。看终端输出和 mp4 的修改时间。一段时间内没有新消息，先确认进程还在。
 
-同一时间只有一个导演。全部 mp4 完成后，把书桌目录切回 /Users/wulei/Workspace/GitRepo/auto-motion，再调用子代理。agent 填「锦泽-剪辑」，access 填 write。task 带上片子根、主题名、成片文件名 <主题>.mp4、scene-plan.json 和各镜头 mp4 的绝对路径。
+同一时间只有一个导演。全部 mp4 完成后，把书桌目录切回 /Users/wulei/Workspace/GitRepo/auto-motion，再调用子代理。agent 填「锦泽-剪辑」，access 填 write。task 带上片子根绝对路径、主题名、成片文件名 <主题>.mp4、scene-plan.json 和各镜头 mp4 的绝对路径。
 
 ## 配音与合轨
 
-无声成片交付后，若 dubbing-brief.md 写明需要配音，再调用子代理。agent 填「锦泽-配音」，access 填 write。task 带上片子根、transcription.srt、dubbing-brief.md，以及无声成片时长 `V`（秒）。
+无声成片交付后，若片子根 dubbing-brief.md 写明需要配音，再调用子代理。agent 填「锦泽-配音」，access 填 write。task 带上片子根绝对路径、transcription.srt、dubbing-brief.md，以及无声成片时长 `V`（秒）。
 
-收到 narration.m4a 后，在片子根合轨。以视频时长为准，不要用 `-shortest`，以免旁白偏短时裁掉画面：
+收到 narration.m4a 后合轨。书桌仍在仓库根时，路径必须带片子根前缀，不要写到仓库根。以视频时长为准，不要用 `-shortest`，以免旁白偏短时裁掉画面：
 
 ```bash
-V=$(ffprobe -v error -show_entries format=duration -of csv=p=0 <主题>.mp4)
-ffmpeg -y -i <主题>.mp4 -i narration.m4a \
+FILM=films/<主题>
+V=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "${FILM}/<主题>.mp4")
+ffmpeg -y -i "${FILM}/<主题>.mp4" -i "${FILM}/narration.m4a" \
   -filter_complex "[1:a]apad=whole_dur=${V}[a]" \
   -map 0:v:0 -map "[a]" -c:v copy -c:a aac -b:a 160k -t "${V}" \
-  <主题>_配音.mp4
+  "${FILM}/<主题>_配音.mp4"
 ```
 
 回报无声成片路径；需要配音时再报配音成片路径。配音失败时，无声成片仍算画面交付完成。
