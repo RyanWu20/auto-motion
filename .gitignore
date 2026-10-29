@@ -9,3 +9,6 @@ auto-hyper-/resources/*
 films/**/*.mp4
 films/**/*.m4a
 films/**/scenes/**/.claude/
+
+# Scene working trees (copied .claude + render state); source of truth stays in exampleFolder
+films/**/scenes/
